@@ -1,6 +1,5 @@
 #Scan of 3. party modules
-
-'''
+´´´
 [1/148] nodejs v7.2.0   13 known vulnerabilities, 0 affecting installed version
 [2/148] bcryptjs 2.4.0   Unknown source for package
 [3/148] body-parser 1.15.2 []   No known vulnerabilities
@@ -165,4 +164,4 @@ Affected versions: <2.6.0
 [148/148] uglify-js 2.7.5 []   2 known vulnerabilities, 0 affecting installed version
 
 
-'''
+´´´
