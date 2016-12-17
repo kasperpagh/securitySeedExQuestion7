@@ -215,7 +215,7 @@ body :
 returns a refreshToken and a accessToken if a new user is created.
 
 
-### get User
+### get User (Requires valid refreshToken header)
 ```JSON
 API PATH : localhost:3000/api/users/getuser/llama
 
@@ -223,4 +223,13 @@ Headers:
 
 refreshToken : 55617a3244ef058cb65b97f01c7ae4-7e50-49b4-ac06-995c33705f4b
 ```
+
+### Delete user (Requires valid refreshToken header + admin)
+```JSON
+API PATH : localhost:3000/api/users/deleteuser/user2
+
+Headers:
+refreshToken : 55617a3244ef058cb65b97f01c7ae4-7e50-49b4-ac06-995c33705f4b
+```
+
 
