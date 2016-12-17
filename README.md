@@ -169,3 +169,23 @@ Affected versions: <2.6.0
 
 
 ```
+## HOW TO USE
+
+Start with installing all dependencies using npm install
+
+Then left click www and run it (bin folder)
+
+Then type localhost:3000 in your browser to find index.html
+
+We did not get the angular to work properly so you have to test the methods using postman this way;
+
+### Loggging in
+```JSON
+API PATH : localhost:3000/login
+
+{
+	"userName" : "llama",
+	"password" : "bubber"
+}
+
+```
