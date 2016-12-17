@@ -183,9 +183,44 @@ We did not get the angular to work properly so you have to test the methods usin
 ```JSON
 API PATH : localhost:3000/login
 
+body : 
+
 {
 	"userName" : "llama",
 	"password" : "bubber"
 }
 
 ```
+
+After you log in you get two headers named refreshToken and accessToken
+
+refreshToken is used to authenticate who the user is and is needed in all API calls
+that does not involve creating a user or logging in and is needed to be send as a header 
+on every request with the name refreshToken with the string
+
+
+### Creating a new User
+```JSON
+API PATH : localhost:3000/login/user/new
+
+body : 
+
+{
+	"userName" : "user2",
+	"password" : "bubber",
+	"admin" : false
+}
+
+```
+returns a refreshToken and a accessToken if a new user is created.
+
+
+### get User
+```JSON
+API PATH : localhost:3000/api/users/getuser/llama
+
+Headers:
+
+refreshToken : 55617a3244ef058cb65b97f01c7ae4-7e50-49b4-ac06-995c33705f4b
+```
+
