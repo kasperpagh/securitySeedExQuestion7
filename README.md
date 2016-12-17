@@ -1,4 +1,8 @@
 #Scan of 3. party modules
+
+The scan was made with the npm package https://www.npmjs.com/package/auditjs.
+
+To use it simply navigate to your projects root folder, and type auditjs in the terminal!
 ```
 [1/148] nodejs v7.2.0   13 known vulnerabilities, 0 affecting installed version
 [2/148] bcryptjs 2.4.0   Unknown source for package
