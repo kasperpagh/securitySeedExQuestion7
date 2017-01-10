@@ -7,27 +7,31 @@
 var app = require('../app');
 var debug = require('debug')('mongotester:server');
 var http = require('http');
+var fs = require("fs");
+var https = require("https");
 
 /**
  * Get port from environment and store in Express.
  */
+var key = fs.readFileSync('./privatekey.pem');
+var cert = fs.readFileSync('./certificate.pem')
 
+var https_options = {
+  key: key,
+  cert: cert
+};
 var port = normalizePort(process.env.PORT || '3000');
+var ip = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
-
-/**
- * Listen on provided port, on all network interfaces.
- */
-
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+var server = https.createServer(https_options, app).listen(port,ip, () =>
+{
+  console.log("lytter på "+ port+ ", bundet til "+ip+" - https style ;)");
+});
 
 /**
  * Normalize a port into a number, string, or false.

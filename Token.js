@@ -39,9 +39,9 @@ function createClaim(userData, secretKey)
 
     var claims =
         {
-            sub: userData[0].username,
-            iss: "www.keebin.dk",
-            admin: userData[0].admin
+            sub: userData.username,
+            iss: "www.js.keebin.dk",
+            admin: userData.admin
         }
     createAccessToken(claims, secretKey)
 }
