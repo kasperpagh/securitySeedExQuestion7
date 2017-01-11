@@ -14,11 +14,27 @@ router.get("/getuser/:username", function (req, res, next)
     dbFacade.getUser(req.params.username, function (data)
     {
         console.log("her er usrToreturn: " + data);
-        res.writeHead(200, {"Content-Type": "application/json", "accessToken": req.headers.accessToken});
+        res.writeHead(200, {"Content-Type": "application/json"});
         res.end(JSON.stringify(data));
     });
 });
 
+
+router.put('/edit/:oldusername/:newusername', function(req, res) {
+
+console.log(req.params.oldusername + " username here!!!!")
+    console.log(req.params.newusername)
+
+
+dbFacade.updateUser(req.params.oldusername, req.params.newusername, function (data)
+{
+    console.log(" i am reached!!")
+    res.writeHead(200, {"Content-Type": "application/json"});
+    res.end(JSON.stringify(data));
+
+
+});
+});
 
 router.get("/all", (req, res, next) =>
 {
@@ -38,10 +54,7 @@ router.get("/all", (req, res, next) =>
 
 router.delete("/deleteuser/:username", function (req, res, next)
 {
-    let keys = Object.keys(req.decoded.data);
-    console.log("her er decoded admin: " + keys);
-    if (req.decoded.data.admin === true)
-    {
+
         dbFacade.deleteUserByUserName(req.params.username, function (status)
         {
             if (status === false)
@@ -51,16 +64,13 @@ router.delete("/deleteuser/:username", function (req, res, next)
             }
             else
             {
-                res.writeHead(200, {"Content-Type": "application/json", "accessToken": req.headers.accessToken});
+                res.writeHead(200, {"Content-Type": "application/json"});
                 res.send();
             }
 
         });
-    }
-    else
-    {
-        res.status(401).send("du MÅ IKKE, blev der sagt!");
-    }
+
+
 
 });
 

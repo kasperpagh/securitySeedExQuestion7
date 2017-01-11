@@ -1,0 +1,103 @@
+ExamQuestions7A
+
+
+Question 1 - Explain basic security terms like authentication, authorization, confidentiality, integrity,  -------------
+SSL/TLS and provide examples of how you have used them.
+
+Authentication: Handler om at man p・en eller anden m蘚e beviser hvem man er. I vores seed bruger vi Username og Kodeord.
+Det sender vi til serveren som tjekker p・om username og kodeord passer til en user i databasen. Kodeordet er hashet og
+salted.
+
+
+Authorization: Handler om at verificere hvad den p虍詬dende bruger har adgang til. Har man ikke adgang til et api kald
+for eksempel, vil man blive "denied". Til dette har vi brugt tokens.
+
+
+Confidentiality: Vi sger for at det vi sender fra browseren til vores backend er beskyttet. Feks. er vores accessTokens
+opbygget s虱edes at man skal bruge en secret for at kunne decode dem.
+
+
+Integrity: P・samme note, s・er vores accessTokens signeret. Det vil sige at bliver der 誅dret p・noget i en accessToken
+ s・vil signaturen ikke passe.
+Desuden vil det sige vores database er opbygget s虱edes at der bruges transactions til at 誅dre noget i databasen.
+
+
+SSL/TSL: SSL krypterer vores request og response.
+Besv誡lig MiTM attacks (hvis MiTM forser at lave sit eget certificat
+med public key'en s・vil signaturen ikke l誅gere stemme overens).
+
+
+
+
+
+
+
+
+Question 2 - Explain, at a fundamental level, the technologies involved, and the steps required, to setup a ------------
+SSL connection between a browser and a server, and how to use SSL in a secure way.
+
+En client sender en besked til serveren om at den gerne vil lave en sikker forbindelse - her sender den en liste af de
+forskellige SSL/TSL versioned som den kan benytte med. S・sender serveren tilbage "jeg kan godt bruge den version SSL/TSL"
+og sender s・er certificat med en public key.
+Klienten modtager dette, tager public key og krypterer en ny "pre-master key" som den sender til serveren.
+Serveren bruger sin private-key til at de-kryptere pre-master-keyen.
+S・laver klienten og serveren BEGGE en shared secret key (vha pre-master-keyen).
+S・krypteres alle req og res med den shared secret key.
+
+
+
+
+Question 3 - How can we "prevent" third party code used, by either our Java or NodeJS applications, --------------------
+from injecting dangerous code into our code base?
+
+Vi bruger et middleware som hedder auditjs. Denne tjekker p・om nogen af de npm moduler vi bruger har nogen kendte
+virusser / "untrustworthy".
+Alternativt skal man skrive koden selv og ikke bruge 3rd party software.
+
+
+
+
+
+Question 4 - Explain about Node tools like Helmet and nsp (and the Node Security Project). -----------------------------
+What do they do, and how have you used them.
+
+Helmet: konfigurer ens headers.
+
+NSP: er et middleware som tjekker p・ens node modules og om de er trustworthy.
+
+
+
+
+
+
+
+
+Question 5 - Explain basic security threats like: Cross Site Scripting (XSS), ------------------------------------------
+SQL Injection and whether something similar to SQL injection is possible with NoSQL databases like MongoDB,
+and DOS-attacks. Explain/demonstrate ways to cope with these problems, preferably via your suggestion for a seed.
+
+
+Cross Site Scripting: (XSS) er hvor "attackers" p・client siden kan injecte scripts in i webpages som bliver set
+af andre brugere (t誅k feks chat program hvor brugerne kan skrive scripts direkte i chat feltet).
+For at undg・dette kan man sikre sig at man ikke kan skrive scripts nogen steder p・client siden.
+
+SQL Injection: er hvor "attackers" kan skrive sql direkte i feks url, hvor ens server s・l誑er det som SQL kode og
+rent faktisk s・ker det sql kald p・databasen.
+Man kan "escape" alt client sender til serveren, eller/og man kan bruge pre-paredstatements p・serveren.
+
+    -med NoSQL kan man ikke injecte SQL statements, dog er der nogle javascript metoder der kan bruges til at ge det samme.
+        -For at beskytte sig mode dette ved at disable al server-side javascript.
+
+DOS-Attack: Denial-of-service ved at sende en masse requests til serveren som s・bukker under til sidst.
+    -Man kan feks bruge proxy servere som tjekker brugere inde de bliver sendt til serveren. T誅k lidt ligesom en
+    dmand. Har man nok dm誅d kan man effektivt beskytte sig om DDOS, dog er det ikke 100% muligt at beskytte sig mod.
+    Men man tvinger ihvertfald "attackeren" til at bruge en stre "pistol".
+
+
+
+
+
+
+
+Question 6 - Explain and demonstrate a basic NodeJS/Angular seed and how it handles ------------------------------------
+authentication and authorization, prevents against Cross Site Scripting and other basic web-threats.

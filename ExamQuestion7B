@@ -1,0 +1,87 @@
+
+
+ExamQuestions7B
+
+
+Question 1 - Explain basic security threads like: Cross Site Scripting (XSS), SQL Injection and whether something ------
+similar to SQL injection is possible with NoSQL databases like MongoDB, and DOS-attacks. Explain/demonstrate ways to cope
+with these problems, preferably via your suggestion for a seed.
+
+
+Cross Site Scripting: (XSS) er hvor "attackers" p・client siden kan injecte scripts in i webpages som bliver set
+af andre brugere (t誅k feks chat program hvor brugerne kan skrive scripts direkte i chat feltet).
+For at undg・dette kan man sikre sig at man ikke kan skrive scripts nogen steder p・client siden.
+
+SQL Injection: er hvor "attackers" kan skrive sql direkte i feks url, hvor ens server s・l誑er det som SQL kode og
+rent faktisk s・ker det sql kald p・databasen.
+Man kan "escape" alt client sender til serveren, eller/og man kan bruge pre-paredstatements p・serveren.
+
+    -med NoSQL kan man ikke injecte SQL statements, dog er der nogle javascript metoder der kan bruges til at ge det samme.
+        -For at beskytte sig mode dette ved at disable al server-side javascript.
+
+DOS-Attack: Denial-of-service ved at sende en masse requests til serveren som s・bukker under til sidst.
+    -Man kan feks bruge proxy servere som tjekker brugere inde de bliver sendt til serveren. T誅k lidt ligesom en
+    dmand. Har man nok dm誅d kan man effektivt beskytte sig om DDOS, dog er det ikke 100% muligt at beskytte sig mod.
+    Men man tvinger ihvertfald "attackeren" til at bruge en stre "pistol".
+
+
+
+
+
+Question 2 - Explain and demonstrate ways to protect user passwords on our backend, and why this is necessary. ---------
+
+Vi hasher og salter vores passwords. Vi bruger salt til at "injecte" ind i brugers password som vi s・hasher.
+At hashe er i stedet for at gemme kodeord i "ren tekst" alle kan l誑e, s・ligger de hashed og salted. Dvs n蚌 en bruger
+logger ind, s・tager vi hans kodeord, salter og hasher og ser om det passer med kodeordet i databasen.
+
+
+     userSchema.methods.HnS = function ()
+     {
+         var salt = bcrypt.genSaltSync(12);
+         var pw = bcrypt.hashSync(this.password, salt);
+         return pw;
+     };
+
+
+
+Question 3 - Explain about password hashing, salts and the difference between Bcrypt and older (not suited) ------------
+algorithms like sha1, md5 etc.
+
+Tingen med algoritmer som sha1, md5 er at de er for hurtige. Dvs man kan pre at finde kodeordet gennem "brute force"
+da man kan afpre milliarder af kodeord i sekundet p・en enkelt cpu.
+
+Bcrypt kan man selv s誥te antallet af iterationer, s・man kan selv bestemme hvor "langsom" den skal v誡e.
+
+
+
+
+
+
+Question 4 - Explain about JSON Web Tokens (jwt) and why they are extremely suited for a REST-based API ----------------
+
+JWT er opbygget af 3 dele:
+
+fste del hedder header og beskriver bla. hvilken hashing algoritme der er blevet brugt og at det er en JWT.
+
+anden del hedder payload og har det man kalder "claims". I vores har vi brugerid issuer og role.
+   var claims =
+        {
+            sub: userData.username,
+            iss: "www.js.keebin.dk",
+            admin: userData.admin
+        }
+
+tredje del er signaturen som er headeren + payload krypteret.
+
+De er opbygget som JSON hvilket de fleste frameworks kan l誑e. Desuden er det meget sm・og derfor er der ikke et stort
+tab i at sende dem hver gang.
+
+
+
+
+
+
+
+Question 5 - Explain and demonstrate a basic NodeJS/Angular seed and how it handles authentication and -----------------
+authorization, prevents against Cross Site Scripting and other basic web-threats.
+

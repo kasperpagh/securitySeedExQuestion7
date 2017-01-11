@@ -21,36 +21,49 @@ app.controller("MyController", function ($scope, $http) {
 
 
 
-    $scope.delete = function (id) {
-        // $http({method: 'DELETE', url: 'http://localhost:3000/delete'})
-        //     .success(function (data) {
-        //         $scope.deleteItem = data;
-        //
-        //
-        //     });
-        alert("bruger er sletter: " + id)
+    $scope.delete = function (username) {
+        var result = confirm("Want to delete?");
+        if (result) {
+            //Logic to delete the item
+
+        $http({method: 'DELETE', url: 'https://localhost:3000/api/users/deleteuser/' + username})
+            .success(function () {
+
+                $scope.getAllUsers()
+
+            });
+        }
+
     }
 
+    var persontoedit = ""
+
     $scope.openUpdateModal = function (user) {
-        $('#userNameToUpdate').val(user.id)
-        $('#userPasswordToUpdate').val(user.name)
+        $('#userNameToUpdate').val(user.username)
         // $('#userNameToUpdate').value = user.id
+
+        persontoedit = user.username
 
         console.log(user.id)
         $('#myModal').modal('show');
     }
 
     $scope.update = function () {
-        var a = $('#userPasswordToUpdate').val()  //her sender vi det nye password
-        // $http({method: 'PUT', url: 'http://localhost:3000/update'})
-        //     .success(function (data) {
-        //         $scope.updateItem = data;
-        //
-        //     });
 
-        alert(a)
-       var userName = $('#userNameToUpdate').innerText
-        console.log(userName)
+        var name = $('#userNameToUpdate').val();
+
+
+        $.ajax({
+            url: 'https://localhost:3000/api/users/edit/' + persontoedit + "/" + name,
+            type: 'PUT',
+            data: "",
+            success: function(data) {
+                $scope.getAllUsers()
+            }
+        });
+
+
+
     }
 
 
@@ -99,6 +112,8 @@ app.controller("MyController", function ($scope, $http) {
     }
 
 
+
+
     $scope.openCreateModal = function () {
         $('#createModal').modal('show');
 
@@ -108,13 +123,16 @@ app.controller("MyController", function ($scope, $http) {
     $scope.create = function () {
         var un = $('#createUserName').val()
         var pw = $('#createPassword').val()
-        // $http({method: 'POST', url: 'http://localhost:3000/update'})
-        //     .success(function (data) {
-        //         $scope.updateItem = data;
-        //
-        //     });
 
-        alert(un + ", " + pw)
+        var jsonData = {userName : un, password: pw, admin : true}
+
+        $http.post('https://localhost:3000/login/user/new', JSON.stringify(jsonData))
+            .success(function (data) {
+
+                $scope.getAllUsers()
+
+            });
+
 
     }
 

@@ -102,9 +102,9 @@ let createUser = function (userName, password, isAdmin, callback)
 
 let updateUser = function (oldUserName, updatedUser, callback)
 {
+    console.log("here is ")
     User.findOneAndUpdate({username: oldUserName}, {
-        username: updatedUser.username,
-        password: updatedUser.password
+        username: updatedUser
     }, function (err, user)
     {
         if (err)
