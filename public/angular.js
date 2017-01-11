@@ -12,10 +12,9 @@ app.controller("MyController", function ($scope, $http) {
 
 
     $scope.getAllUsers = function () {
-        $http({method: 'GET', url: 'http://localhost:3000/get'})
+        $http({method: 'GET', url: 'https://localhost:3000/api/users/all'})
             .success(function (data) {
-                $scope.getItem = data;
-
+                $scope.allUsers = data
             });
     }
 
@@ -56,10 +55,30 @@ app.controller("MyController", function ($scope, $http) {
 
 
 
+
+
+
+
+
+
+    $http({method: 'GET', url: 'https://localhost:3000/activecookie'})
+        .success(function (data, status) {
+
+            if(status == 200)
+            {
+                // får du en status 200 har du en session cookie på serveren og kan derfor logges ind.
+                $scope.loginForm = !$scope.loginForm // skal ligge i whatever efter vi er logget ind.
+                $scope.loggedIn = !$scope.loggedIn;
+                $scope.fejl = "logget ind"
+                $scope.loggedInUser = data.userID // få det fra user vi får tilbage fra DB
+                //kør get all users
+                $scope.getAllUsers()
+            }
+        });
+
+
+
     $scope.login = function () {
-
-
-
 
         var un =  $scope.userName
         var pw = $scope.passWord
@@ -71,27 +90,11 @@ app.controller("MyController", function ($scope, $http) {
                 $scope.loginForm = !$scope.loginForm // skal ligge i whatever efter vi er logget ind.
                 $scope.loggedIn = !$scope.loggedIn;
                 $scope.fejl = "logget ind"
+                $scope.getAllUsers()
 
             });
 
         $scope.loggedInUser = un // få det fra user vi får tilbage fra DB
-        //kør get all users
-
-
-        $scope.allUsers =[ {
-            'id':1,
-            'name':'john'
-        },{
-            'id':2,
-            'name':'jane'
-        },{
-            'id':3,
-            'name':'zack'
-        }];
-
-
-
-
 
     }
 

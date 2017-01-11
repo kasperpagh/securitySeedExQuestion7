@@ -220,13 +220,29 @@
     <h1 style="color: white">You are logged in as {{loggedInUser}}</h1>
 
     <table  style="background-color: deepskyblue; color:black; " class="table table-hover" ng-repeat="a in allUsers">
-    <tr ng-repeat="(c,d) in a">
+   <thead>
+   <td>
+       USER ID
+   </td>
+   <td>
+       USER NAME
+   </td>
+   </thead>
+        <tr><td>
+          {{a.id}} <td> {{a.username}}</td>
+        </td>
 
-       <td>{{c}}</td>
-        <td>{{d}}</td>
-           <td><button type="submit" class="btn btn-primary btn-block btn-large" ng-click="delete(a.id)">Delete user.</button></td>
-        <td><button type="submit" class="btn btn-primary btn-block btn-large" ng-click="openUpdateModal(a)">Update user.</button></td>
-    </tr>
+            <td><button type="submit" class="btn btn-primary btn-block btn-large" ng-click="delete(a.id)">Delete user.</button></td>
+            <td><button type="submit" class="btn btn-primary btn-block btn-large" ng-click="openUpdateModal(a)">Update user.</button></td>
+
+        </tr>
+    <!--<tr ng-repeat="(c,d) in a">-->
+
+       <!--<td>{{c}}</td>-->
+        <!--<td>{{d}}</td>-->
+
+
+    <!--</tr>-->
         <br>
 
     </table>

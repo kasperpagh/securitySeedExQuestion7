@@ -20,6 +20,22 @@ router.get("/getuser/:username", function (req, res, next)
 });
 
 
+router.get("/all", (req, res, next) =>
+{
+    console.log("i find all users")
+    dbFacade.getAllUsers(function(docs)
+    {
+        let returnData = []
+        for(i = 0; i < docs.length; i++)
+        {
+            returnData.push({username: docs[i].username, id: docs[i]._id})
+        }
+        console.log("HER ER JSON: " + JSON.stringify(returnData))
+        res.end(JSON.stringify(returnData));
+    })
+});
+
+
 router.delete("/deleteuser/:username", function (req, res, next)
 {
     let keys = Object.keys(req.decoded.data);

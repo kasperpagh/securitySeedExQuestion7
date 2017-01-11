@@ -5,7 +5,7 @@ var bcrypt = require('bcryptjs');
 var Token = require('../Token');
 var Secret = require('../Secret.js');
 let mongoose = require("mongoose");
-
+var cookieSession = require('cookie-session')
 let dbConnectionString = "mongodb://127.0.0.1:27017";
 
 
@@ -14,6 +14,7 @@ router.post("/", function (req, res)
     {
         // mongoose.connect(dbConnectionString);
         //her skal vi tjekke om der er en accessToken, eller en refreshToken og sammenligner den med vores secretKey.
+        console.log("her fra router: "+ req.session.accessToken)
         facade.getUser(req.body.userName, function (data)
         {
             if (data !== false)
@@ -31,11 +32,19 @@ router.post("/", function (req, res)
                         refreshToken = newRefreshTokenCreated.refreshToken;
 
 
+
+
+
                         Token.getToken(data, function (accessToken)
+
                         {
                             console.log("Found accessToken - " + accessToken);
                             console.log("Found refreshToken - " + refreshToken);
                             var tokens = {"accessToken": accessToken, "refreshToken": refreshToken}
+                            console.log("vi sætter tokens!");
+                            req.session.accessToken = accessToken;
+                            req.session.refreshToken = refreshToken;
+                            console.log("her er state token: " + req.session.refreshToken);
                             // mongoose.disconnect();
                             res.status(200).send(JSON.stringify(tokens));
                         });

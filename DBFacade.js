@@ -137,6 +137,23 @@ let deleteUserByUserName = function (userName, callback)
     });
 };
 
+
+
+let getAllUsers = function (callback)
+{
+    User.find({}, function (err, user)
+    {
+        if (err)
+        {
+            console.log("fejl i find: " + err);
+        }
+        else
+        {
+            callback(user)
+        }
+    });
+}
+
 module.exports =
     {
         deleteUserByUserName: deleteUserByUserName,
@@ -144,7 +161,8 @@ module.exports =
         createUser: createUser,
         getUser: getUser,
         getUserByRefreshToken: getUserByRefreshToken,
-        getToken: getToken
+        getToken: getToken,
+        getAllUsers: getAllUsers
     };
 
 
